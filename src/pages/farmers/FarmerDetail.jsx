@@ -120,190 +120,191 @@ const FarmerDetail = () => {
 
   return (
     <div className="detail-page-wrapper">
-      {/* ✅ DOWNLOAD BUTTONS */}
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
-        <button
-          className="grey-outline-btn"
-          onClick={handleDownloadPDF}
-          style={{ padding: "10px 16px" }}
-        >
-           Download Form (PDF)
+      {/* TOP ACTION BAR */}
+      <div className="detail-actions-bar">
+        <button className="back-button" onClick={() => navigate("/admin/farmers")}>
+          ← Back to Farmers
         </button>
+        <div className="action-buttons">
+          <button className="btn-download" onClick={handleDownloadPDF}>
+            📄 Download PDF
+          </button>
+        </div>
       </div>
 
-      {/* ✅ WRAP FULL FORM IN REF */}
+      {/* WRAP FULL FORM IN REF */}
       <div ref={pdfRef}>
-        {/* HEADER */}
+        {/* HEADER CARD */}
         <div className="detail-header">
-          <h3 className="title-main">Survey Details</h3>
+          <h3 className="title-main">
+            📋 Survey Details
+          </h3>
           <div className="header-meta">
-            <div className="info-item">
-              <span>Form Number:</span>
-              <span>{data?.formNumber || "N/A"}</span>
+            <div className="meta-card">
+              <div className="meta-label">Form Number</div>
+              <div className="meta-value">{data?.formNumber || "N/A"}</div>
             </div>
-            <div className="info-item">
-              <span>Feedback ID:</span>
-              <span>{data?.surveyId || "New"}</span>
+            <div className="meta-card">
+              <div className="meta-label">Feedback ID</div>
+              <div className="meta-value">{data?.surveyId || "New"}</div>
             </div>
-            <div className="info-item">
-              <span>Status:</span>
-              <span>{data?.formStatus || "N/A"}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* FARMER INFORMATION */}
-        <div className="detail-section">
-          <div className="grey-section-bar">Farmer Information</div>
-          <div className="info-grid">
-            <div className="info-item">
-              <span>Name</span>
-              <span>: {data?.farmerName || "N/A"}</span>
-            </div>
-
-            <div className="info-item">
-              <span>User ID</span>
-              <span>: {data?.userId || "N/A"}</span>
-            </div>
-
-            <div className="info-item">
-              <span>Phone No</span>
-              <span>: {data?.farmerMobile || "N/A"}</span>
-            </div>
-
-            <div className="info-item">
-              <span>Taluka</span>
-              <span>: {data?.taluka || "N/A"}</span>
-            </div>
-
-            <div className="info-item">
-              <span>District</span>
-              <span>: {data?.district || "N/A"}</span>
-            </div>
-
-            <div className="info-item full">
-              <span>Address</span>
-              <span>: {data?.address || "N/A"}</span>
+            <div className="meta-card">
+              <div className="meta-label">Status</div>
+              <div className="status-badge">{data?.formStatus || "N/A"}</div>
             </div>
           </div>
         </div>
 
-        {/* SURVEY DETAILS */}
-        <div className="detail-section">
-          <div className="grey-section-bar">Survey Details</div>
-          <div className="info-grid">
-            <div className="info-item">
-              <span>Survey Type</span>
-              <span>: Survey</span>
+        {/* CONTENT WRAPPER */}
+        <div className="detail-content">
+          {/* FARMER INFORMATION */}
+          <div className="detail-section">
+            <div className="section-header">
+              <div className="section-icon">👤</div>
+              <h4 className="section-title">Farmer Information</h4>
             </div>
-            <div className="info-item">
-              <span>Submitted On</span>
-              <span>
-                :{" "}
-                {data?.farmerSelfie?.takenAt
-                  ? new Date(data.farmerSelfie.takenAt).toLocaleDateString(
-                      "en-IN",
-                      { day: "2-digit", month: "short", year: "numeric" }
-                    )
-                  : "N/A"}
-              </span>
-            </div>
-          </div>
-
-          {data?.farmInformation && (
-            <div className="detail-message-box">
-              <strong>Message:</strong>
-              <p>"{data.farmInformation}"</p>
-            </div>
-          )}
-        </div>
-
-        {/* FARM DETAILS */}
-        <div className="detail-section">
-          <div className="grey-section-bar">Farm Details</div>
-          <div className="info-grid">
-            <div className="info-item">
-              <span>Land Area</span>
-              <span>: {data?.landArea || "N/A"}</span>
-            </div>
-            <div className="info-item">
-              <span>Sample Collected</span>
-              <span>: {data?.sampleCollected ? "Yes" : "No"}</span>
-            </div>
-            <div className="info-item full">
-              <span>Crops</span>
-              <span>: {data?.cropDetails?.join(", ") || "N/A"}</span>
-            </div>
-            <div className="info-item full">
-              <span>Livestock</span>
-              <span>: {data?.livestockDetails?.join(", ") || "N/A"}</span>
-            </div>
-            <div className="info-item full">
-              <span>Equipment</span>
-              <span>: {data?.productionEquipment?.join(", ") || "N/A"}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ATTACHMENTS */}
-        <div className="detail-section">
-          <div className="grey-section-bar">Attachments (if any)</div>
-
-          {data?.farmerSelfie?.imageUrl ? (
-            <div className="attachment-group">
-              <div className="preview-square">
-                <div className="img-preview">
-                  <img
-                    src={`data:image/jpeg;base64,${data.farmerSelfie.imageUrl}`}
-                    alt="Farmer Selfie"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </div>
-                <span className="file-label">Farmer.jpg</span>
+            <div className="info-grid">
+              <div className="info-card">
+                <div className="info-label">Name</div>
+                <div className="info-value">{data?.farmerName || "N/A"}</div>
               </div>
-
-              <button
-                className="grey-outline-btn"
-                onClick={handleDownloadImage}
-              >
-                Download Image
-              </button>
+              <div className="info-card">
+                <div className="info-label">User ID</div>
+                <div className="info-value">{data?.userId || "N/A"}</div>
+              </div>
+              <div className="info-card">
+                <div className="info-label">Phone Number</div>
+                <div className="info-value">{data?.farmerMobile || "N/A"}</div>
+              </div>
+              <div className="info-card">
+                <div className="info-label">Taluka</div>
+                <div className="info-value">{data?.taluka || "N/A"}</div>
+              </div>
+              <div className="info-card">
+                <div className="info-label">District</div>
+                <div className="info-value">{data?.district || "N/A"}</div>
+              </div>
+              <div className="info-card full-width">
+                <div className="info-label">Address</div>
+                <div className="info-value">{data?.address || "N/A"}</div>
+              </div>
             </div>
-          ) : (
-            <p style={{ paddingLeft: "10px", color: "#888", fontSize: "14px" }}>
-              No attachments available
-            </p>
-          )}
-        </div>
+          </div>
 
-        {/* SURVEY STATUS */}
-        <div className="detail-section">
-          <div className="grey-section-bar">Survey Status</div>
-          <div className="payment-summary">
-            <div>
-              <span>Status</span>
-              <span>: {data?.formStatus || "N/A"}</span>
+          {/* SURVEY DETAILS */}
+          <div className="detail-section">
+            <div className="section-header">
+              <div className="section-icon">📝</div>
+              <h4 className="section-title">Survey Details</h4>
             </div>
+            <div className="info-grid">
+              <div className="info-card">
+                <div className="info-label">Survey Type</div>
+                <div className="info-value">Survey</div>
+              </div>
+              <div className="info-card">
+                <div className="info-label">Submitted On</div>
+                <div className="info-value">
+                  {data?.farmerSelfie?.takenAt
+                    ? new Date(data.farmerSelfie.takenAt).toLocaleDateString(
+                        "en-IN",
+                        { day: "2-digit", month: "short", year: "numeric" }
+                      )
+                    : "N/A"}
+                </div>
+              </div>
+            </div>
+
+            {data?.farmInformation && (
+              <div className="detail-message-box">
+                <div className="message-label">Farm Information</div>
+                <div className="message-content">"{data.farmInformation}"</div>
+              </div>
+            )}
+          </div>
+
+          {/* FARM DETAILS */}
+          <div className="detail-section">
+            <div className="section-header">
+              <div className="section-icon">🌾</div>
+              <h4 className="section-title">Farm Details</h4>
+            </div>
+            <div className="info-grid">
+              <div className="info-card">
+                <div className="info-label">Land Area</div>
+                <div className="info-value">{data?.landArea || "N/A"}</div>
+              </div>
+              <div className="info-card">
+                <div className="info-label">Sample Collected</div>
+                <div className="info-value">{data?.sampleCollected ? "Yes" : "No"}</div>
+              </div>
+            </div>
+
+            {data?.cropDetails && data.cropDetails.length > 0 && (
+              <div style={{ marginTop: "20px" }}>
+                <div className="info-label" style={{ marginBottom: "10px" }}>Crops Grown</div>
+                <div className="list-items">
+                  {data.cropDetails.map((crop, index) => (
+                    <span key={index} className="list-tag">🌱 {crop}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {data?.livestockDetails && data.livestockDetails.length > 0 && (
+              <div style={{ marginTop: "20px" }}>
+                <div className="info-label" style={{ marginBottom: "10px" }}>Livestock</div>
+                <div className="list-items">
+                  {data.livestockDetails.map((animal, index) => (
+                    <span key={index} className="list-tag">🐄 {animal}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {data?.productionEquipment && data.productionEquipment.length > 0 && (
+              <div style={{ marginTop: "20px" }}>
+                <div className="info-label" style={{ marginBottom: "10px" }}>Equipment</div>
+                <div className="list-items">
+                  {data.productionEquipment.map((equipment, index) => (
+                    <span key={index} className="list-tag">🚜 {equipment}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ATTACHMENTS */}
+          <div className="detail-section">
+            <div className="section-header">
+              <div className="section-icon">📎</div>
+              <h4 className="section-title">Attachments</h4>
+            </div>
+
+            {data?.farmerSelfie?.imageUrl ? (
+              <div className="attachment-grid">
+                <div className="attachment-card">
+                  <div className="img-preview">
+                    <img
+                      src={`data:image/jpeg;base64,${data.farmerSelfie.imageUrl}`}
+                      alt="Farmer Selfie"
+                    />
+                  </div>
+                  <span className="file-label">Farmer Selfie</span>
+                  <button className="btn-download-image" onClick={handleDownloadImage}>
+                    Download Image
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="no-attachments">
+                📁 No attachments available
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* BACK BUTTON */}
-      <div style={{ marginTop: "30px", paddingLeft: "10px" }}>
-        <button
-          className="grey-outline-btn"
-          onClick={() => navigate("/admin/farmers")}
-          style={{ padding: "10px 30px" }}
-        >
-          Back
-        </button>
-      </div>
-      
       {/* Toast Notifications */}
       <ToastComponent />
     </div>

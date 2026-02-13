@@ -1,9 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./FarmerRegistration.css";
 import { useEffect } from "react";
-import { useToast } from "../../../hooks/useToast";
-import { BASE_URL } from '../../../config/api';
-
+import {BASE_URL} from "../../../config/api";
 
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -17,6 +15,7 @@ export default function FarmerRegistration({
 }) {
 
 useEffect(() => {
+  // ✅ MOBILE-ONLY hard reset scroll (iOS + Android safe)
   if (window.matchMedia("(max-width: 768px)").matches) {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -29,20 +28,23 @@ useEffect(() => {
   }
 }, []);
 useEffect(() => {
+    // ✅ Disable browser scroll restoration
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-
+ 
     const scrollToTopEverywhere = () => {
+      // ✅ Window scroll
       window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
-
+ 
+      // ✅ Also scroll all containers which have scrollbar
       const allElements = document.querySelectorAll("*");
       allElements.forEach((el) => {
         const style = window.getComputedStyle(el);
         const overflowY = style.overflowY;
-
+ 
         if (
           (overflowY === "auto" || overflowY === "scroll") &&
           el.scrollHeight > el.clientHeight
@@ -51,17 +53,20 @@ useEffect(() => {
         }
       });
     };
-
+ 
+    // ✅ run immediately
     scrollToTopEverywhere();
-
+ 
+    // ✅ run again after render (best fix for react-router layouts)
     requestAnimationFrame(() => {
       scrollToTopEverywhere();
     });
-
+ 
+    // ✅ run again after small delay (some layouts render late)
     const timer = setTimeout(() => {
       scrollToTopEverywhere();
     }, 50);
-
+ 
     return () => clearTimeout(timer);
   }, []);
 
@@ -107,24 +112,6 @@ useEffect(() => {
   const [showDrawPad, setShowDrawPad] = useState(false);
   const isDrawingRef = useRef(false);
   const signatureCanvasRef = useRef(null);
-
-  const showError = (message) => {
-    Swal.fire({
-      icon: "error",
-      title: "Validation Error",
-      text: message,
-      confirmButtonColor: "#2f8f46",
-    });
-  };
-
-  const showSuccess = (message) => {
-    Swal.fire({
-      icon: "success",
-      title: "Success",
-      text: message,
-      confirmButtonColor: "#2f8f46",
-    });
-  };
 
   /* ===================== EFFECTS ===================== */
 
@@ -290,7 +277,7 @@ useEffect(() => {
     if (!file) return;
 
     if (file.size > MAX_FILE_SIZE) {
-      showError("File size must be less than 5 MB");
+      alert("File size must be less than 5 MB");
       e.target.value = "";
       return;
     }
@@ -374,7 +361,7 @@ useEffect(() => {
     const canvas = signatureCanvasRef.current;
 
     if (isCanvasEmpty(canvas)) {
-      showError("Please draw your signature first");
+      alert("Please draw your signature first");
       return;
     }
 
@@ -412,42 +399,42 @@ useEffect(() => {
 
   const handleConfirm = async () => {
     if (!formData.farmerName.trim()) {
-      showError("Please enter Farmer's Name");
+      alert("Please enter Farmer's Name");
       return;
     }
 
     if (!formData.place.trim()) {
-      showError("Please enter Place");
+      alert("Please enter Place");
       return;
     }
 
     if (!formData.mobileNumber || formData.mobileNumber.length !== 10) {
-      showError("Please enter a valid 10-digit Mobile Number");
+      alert("Please enter a valid 10-digit Mobile Number");
       return;
     }
 
     if (!formData.village.trim()) {
-      showError("Please enter Village");
+      alert("Please enter Village");
       return;
     }
 
     if (!formData.taluka.trim()) {
-      showError("Please enter Taluka");
+      alert("Please enter Taluka");
       return;
     }
 
     if (!formData.district.trim()) {
-      showError("Please enter District");
+      alert("Please enter District");
       return;
     }
 
     if (!formData.farmingType) {
-      showError("Please select Type of Farming");
+      alert("Please select Type of Farming");
       return;
     }
 
     if (!formData.termsAccepted) {
-      showError("Please accept terms & conditions");
+      alert("Please accept terms & conditions");
       return;
     }
 
@@ -518,7 +505,7 @@ useEffect(() => {
         localStorage.removeItem("role");
         window.location.href = "/";
       } else {
-        showError(err.message);
+        alert(err.message);
       }
     } finally {
       setIsSubmitting(false);
@@ -672,41 +659,70 @@ useEffect(() => {
 
   /* ===================== FINAL SUBMIT ===================== */
 
-  const handleSubmit = async () => {
-    try {
-      setIsSubmitting(true);
+  // const handleSubmit = async () => {
+  //   try {
+  //     setIsSubmitting(true);
 
-      let activeSurveyId = surveyId;
+  //     let activeSurveyId = surveyId;
 
-      if (!activeSurveyId && !isEdit) {
-        activeSurveyId = await handleConfirm();
-      }
+  //     if (!activeSurveyId && !isEdit) {
+  //       activeSurveyId = await handleConfirm();
+  //     }
 
-      if (formData.selfieFile && formData.signatureFile) {
-        await uploadSelfieAndSignature(activeSurveyId);
-      } else if (formData.selfieFile) {
-        await uploadSelfie(activeSurveyId);
-      } else if (formData.signatureFile) {
-        await uploadSignature(activeSurveyId);
-      }
+  //     if (formData.selfieFile && formData.signatureFile) {
+  //       await uploadSelfieAndSignature(activeSurveyId);
+  //     } else if (formData.selfieFile) {
+  //       await uploadSelfie(activeSurveyId);
+  //     } else if (formData.signatureFile) {
+  //       await uploadSignature(activeSurveyId);
+  //     }
 
-      Swal.fire({
-        icon: "success",
-        title: "Survey Submitted!",
-        text: `Thank you ${formData.farmerName} for completing the survey.`,
-        confirmButtonColor: "#2f8f46",
-      });
-      setTimeout(() => {
-        if (onSuccess) {
-          onSuccess();
-        }
-      }, 800);
-    } catch (err) {
-      showError(err.message);
-    } finally {
-      setIsSubmitting(false);
+  //     setShowSuccessModal(true);
+  //     setTimeout(() => {
+  //       if (onSuccess) {
+  //         onSuccess();
+  //       }
+  //     }, 800);
+  //   } catch (err) {
+  //     alert(err.message);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+    const handleSubmit = async () => {
+  try {
+    setIsSubmitting(true);
+
+    let activeSurveyId = surveyId;
+
+    if (!activeSurveyId && !isEdit) {
+      activeSurveyId = await handleConfirm();
     }
-  };
+
+    // ✅ Upload selfie first (if exists)
+    if (formData.selfieFile) {
+      await uploadSelfie(activeSurveyId);
+    }
+
+    // ✅ Then upload signature (if exists)
+    if (formData.signatureFile) {
+      await uploadSignature(activeSurveyId);
+    }
+
+    setShowSuccessModal(true);
+
+    setTimeout(() => {
+      if (onSuccess) {
+        onSuccess();
+      }
+    }, 800);
+
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleCancel = () => {
     if (!window.confirm("Are you sure you want to cancel?")) return;
