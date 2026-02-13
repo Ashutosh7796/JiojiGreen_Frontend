@@ -4,9 +4,8 @@ import { ArrowLeft, MapPin, Calendar, Clock, Loader2 } from "lucide-react";
 import { locationService } from "../../utils/locationService";
 import { adminApi } from "../../api/adminApi";
 import { formatTo12Hour, formatTotalHours } from "../../utils/formatTime";
+import { BASE_URL } from "../../config/api";
 import "./EmployeeLocationHistory.css";
-
-const API_BASE_URL = "http://localhost:8080";
 
 const EmployeeLocationHistory = () => {
   const { employeeId } = useParams();
@@ -29,7 +28,7 @@ const EmployeeLocationHistory = () => {
   const fetchEmployeeData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/api/v1/admin/users/employees/${employeeId}`, {
+      const res = await fetch(`${BASE_URL}/api/v1/admin/users/employees/${employeeId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`

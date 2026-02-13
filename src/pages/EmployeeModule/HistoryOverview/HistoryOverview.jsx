@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./HistoryOverview.css";
 import { useToast } from "../../../hooks/useToast";
-
-// const API_BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const API_BASE_URL = "http://localhost:8080";
+import { BASE_URL } from "../../../config/api";
 
 // Authenticated fetch utility
 const authenticatedFetch = async (url, options = {}, showToast) => {
@@ -30,7 +28,7 @@ const authenticatedFetch = async (url, options = {}, showToast) => {
   // console.log("📥 Response status:", response.status);
 
   if (response.status === 401) {
-    console.error("❌ 401 Unauthorized - Token is invalid or expired");
+    console.error(" 401 Unauthorized - Token is invalid or expired");
     showToast("Your session has expired. Please login again.", "error");
 
     localStorage.removeItem("token");
@@ -69,7 +67,7 @@ const SurveyDetailView = ({ surveyId, onBack }) => {
       // console.log("📊 Fetching survey details for ID:", surveyId);
 
       const response = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/${surveyId}`,
+        `${BASE_URL}/api/v1/employeeFarmerSurveys/${surveyId}`,
         {
           method: "GET",
         },
@@ -105,7 +103,7 @@ const SurveyDetailView = ({ surveyId, onBack }) => {
   const fetchSelfie = async () => {
     try {
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/farmer_selfie_Survey/survey/${surveyId}/photo-type/SELFIE`
+        `${BASE_URL}/api/v1/farmer_selfie_Survey/survey/${surveyId}/photo-type/SELFIE`
       );
       if (res.ok) {
         const json = await res.json();
@@ -119,7 +117,7 @@ const SurveyDetailView = ({ surveyId, onBack }) => {
   const fetchSignature = async () => {
     try {
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/farmer_selfie_Survey/survey/${surveyId}/photo-type/SIGNATURE`
+        `${BASE_URL}/api/v1/farmer_selfie_Survey/survey/${surveyId}/photo-type/SIGNATURE`
       );
       if (res.ok) {
         const json = await res.json();

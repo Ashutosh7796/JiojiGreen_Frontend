@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, MoreVertical, Eye, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "../../hooks/useToast";
+import { BASE_URL } from "../../config/api";
 import "./Farmers.css";
 
-// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const BASE_URL = "http://localhost:8080";
 const getToken = () => localStorage.getItem("token");
 
 const FarmerList = () => {

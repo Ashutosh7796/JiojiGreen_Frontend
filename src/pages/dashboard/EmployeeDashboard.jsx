@@ -8,6 +8,7 @@ import { locationService } from "../../utils/locationService";
 import Toast from "../../components/Toast";
 import { useToast } from "../../hooks/useToast";
 import { formatTo12Hour } from "../../utils/formatTime";
+import { BASE_URL } from "../../config/api";
 
 import {
   PieChart,
@@ -21,8 +22,6 @@ import {
 import "./styles/EmployeeDashboard.css";
 import { useEffect } from "react";
 
-// const API_BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const API_BASE_URL = "http://localhost:8080";
 const authenticatedFetch = async (url, options = {}) => {
   const token = localStorage.getItem("token");
 
@@ -110,7 +109,7 @@ export default function EmployeeDashboard() {
   const fetchTodayAttendance = async () => {
     try {
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/attendance/me`,
+        `${BASE_URL}/api/v1/attendance/me`,
         { method: "GET" }
       );
 
@@ -179,7 +178,7 @@ export default function EmployeeDashboard() {
       };
 
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/attendance/mark`,
+        `${BASE_URL}/api/v1/attendance/mark`,
         {
           method: "POST",
           body: JSON.stringify(payload),
@@ -257,7 +256,7 @@ export default function EmployeeDashboard() {
       };
 
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/attendance/checkout`,
+        `${BASE_URL}/api/v1/attendance/checkout`,
         {
           method: "POST",
           body: JSON.stringify(payload),
@@ -316,7 +315,7 @@ export default function EmployeeDashboard() {
       };
 
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/attendance/leave/request`,
+        `${BASE_URL}/api/v1/attendance/leave/request`,
         {
           method: "POST",
           body: JSON.stringify(payload),
@@ -349,7 +348,7 @@ export default function EmployeeDashboard() {
   const fetchSurveyStatusCount = async () => {
     try {
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/status-count/me`,
+        `${BASE_URL}/api/v1/employeeFarmerSurveys/status-count/me`,
         { method: "GET" }
       );
 
@@ -367,12 +366,12 @@ export default function EmployeeDashboard() {
   const fetchPieChartData = async () => {
     try {
       const activeRes = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/me/status/ACTIVE`
+        `${BASE_URL}/api/v1/employeeFarmerSurveys/me/status/ACTIVE`
       );
       const activeJson = await activeRes.json();
 
       const inactiveRes = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/me/status/INACTIVE`
+        `${BASE_URL}/api/v1/employeeFarmerSurveys/me/status/INACTIVE`
       );
       const inactiveJson = await inactiveRes.json();
 
@@ -391,7 +390,7 @@ export default function EmployeeDashboard() {
   const fetchRecentFarmers = async () => {
     try {
       const res = await authenticatedFetch(
-        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/my`,
+        `${BASE_URL}/api/v1/employeeFarmerSurveys/my`,
         { method: "GET" }
       );
 
