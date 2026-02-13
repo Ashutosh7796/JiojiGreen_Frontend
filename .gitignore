@@ -91,10 +91,3 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Archive files
-*.zip
-*.rar
-*.7z
-*.tar
-*.tar.gz

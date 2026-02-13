@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Loader2, Calendar, Users } from "lucide-react";
 import Toast from "../../components/Toast";
 import { useToast } from "../../hooks/useToast";
-import { BASE_URL } from "../../config/api";
 import "./AttendanceManagement.css";
+
+const API_BASE_URL = "http://localhost:8080";
 
 const AttendanceManagement = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const AttendanceManagement = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${BASE_URL}/api/v1/employees/getUsers`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/employees/getUsers`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`

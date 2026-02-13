@@ -3,9 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useToast } from "../../hooks/useToast";
-import { BASE_URL } from "../../config/api";
 import "./FarmersDetails.css";
 
+// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
+const BASE_URL = "http://localhost:8080";
 const getToken = () => localStorage.getItem("token");
 
 const FarmerDetail = () => {

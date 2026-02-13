@@ -4,8 +4,9 @@ import "./PreviousHistory.css";
 import SurveyDetailView from "../HistoryOverview/HistoryOverview";
 import FarmerRegistration from "../FarmerRegistration/FarmerRegistration";
 import { useToast } from "../../../hooks/useToast";
-import { BASE_URL } from "../../../config/api";
  
+// const API_BASE_URL = "https://jiojibackendv1-production.up.railway.app";
+ const API_BASE_URL = "http://localhost:8080";
 const authenticatedFetch = async (url, options = {}, showToast) => {
   const token = localStorage.getItem("token");
  
@@ -95,7 +96,7 @@ const PreviousHistory = () => {
  
     try {
       const response = await authenticatedFetch(
-        `${BASE_URL}/api/v1/employeeFarmerSurveys/my?page=${page}&size=${pageSize}`,
+        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/my?page=${page}&size=${pageSize}`,
         { method: "GET" },
         showToast
       );
@@ -197,7 +198,7 @@ const PreviousHistory = () => {
   const handleResume = async (id) => {
     try {
       const res = await authenticatedFetch(
-        `${BASE_URL}/api/v1/employeeFarmerSurveys/${id}`,
+        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/${id}`,
         { method: "GET" },
         showToast
       );

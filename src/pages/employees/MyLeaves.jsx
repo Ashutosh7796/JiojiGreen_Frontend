@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Calendar } from 'lucide-react';
 import Toast from '../../components/Toast';
 import { useToast } from '../../hooks/useToast';
-import { BASE_URL } from '../../config/api';
 import './MyLeaves.css';
+
+const API_BASE_URL = "http://localhost:8080";
 
 const MyLeaves = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const MyLeaves = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${BASE_URL}/api/v1/attendance/leave/my-requests`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/attendance/leave/my-requests`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -103,7 +104,7 @@ const MyLeaves = () => {
         status: 'PENDING'
       };
 
-      const res = await fetch(`${BASE_URL}/api/v1/attendance/leave/request`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/attendance/leave/request`, {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`,

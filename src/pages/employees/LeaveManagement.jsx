@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock } from 'lucide-react';
 import Toast from '../../components/Toast';
 import { useToast } from '../../hooks/useToast';
-import { BASE_URL } from '../../config/api';
 import './LeaveManagement.css';
+
+const API_BASE_URL = "http://localhost:8080";
 
 const LeaveManagement = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const LeaveManagement = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${BASE_URL}/api/v1/attendance/leave/requests`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/attendance/leave/requests`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -74,7 +75,7 @@ const LeaveManagement = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${BASE_URL}/api/v1/attendance/leave/approve/${leaveId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/attendance/leave/approve/${leaveId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -107,7 +108,7 @@ const LeaveManagement = () => {
     try {
       const token = localStorage.getItem('token');
       const reasonParam = encodeURIComponent(reason || 'No reason provided');
-      const res = await fetch(`${BASE_URL}/api/v1/attendance/leave/reject/${leaveId}?reason=${reasonParam}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/attendance/leave/reject/${leaveId}?reason=${reasonParam}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

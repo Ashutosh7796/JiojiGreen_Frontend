@@ -4,6 +4,10 @@ import { checkRateLimit } from '../utils/rateLimiter';
 // Use environment variable or fallback to localhost
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
+// Debug: Log the BASE_URL being used (remove this in production)
+console.log('🔧 API BASE_URL:', BASE_URL);
+console.log('🔧 Environment Variable:', import.meta.env.VITE_API_BASE_URL);
+
 export const getAuthHeaders = (isFormData = false) => {
   const token = localStorage.getItem("token");
 
