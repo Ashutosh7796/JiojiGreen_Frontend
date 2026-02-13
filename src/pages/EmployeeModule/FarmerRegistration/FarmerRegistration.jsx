@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import "./FarmerRegistration.css";
 import { useEffect } from "react";
 import { useToast } from "../../../hooks/useToast";
+import { BASE_URL } from '../../../config/api';
 
-// const API_BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const API_BASE_URL = "http://localhost:8080";
+
+
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export default function FarmerRegistration({
@@ -484,7 +485,7 @@ useEffect(() => {
       setIsSubmitting(true);
 
       const res = await fetch(
-        `${API_BASE_URL}/api/v1/employeeFarmerSurveys/add`,
+        `${BASE_URL}/api/v1/employeeFarmerSurveys/add`,
         {
           method: "POST",
           headers: {
@@ -551,7 +552,7 @@ useEffect(() => {
     fd.append("file", formData.selfieFile);
 
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/farmer_selfie_Survey/upload?surveyId=${surveyId}&photoType=SELFIE`,
+      `${BASE_URL}/api/v1/farmer_selfie_Survey/upload?surveyId=${surveyId}&photoType=SELFIE`,
       {
         method: "POST",
         headers: {
@@ -580,7 +581,7 @@ useEffect(() => {
     fd.append("file", formData.signatureFile);
 
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/farmer_selfie_Survey/upload?surveyId=${surveyId}&photoType=SIGNATURE`,
+      `${BASE_URL}/api/v1/farmer_selfie_Survey/upload?surveyId=${surveyId}&photoType=SIGNATURE`,
       {
         method: "POST",
         headers: {
@@ -607,7 +608,7 @@ useEffect(() => {
     fd.append("signature", formData.signatureFile);
 
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/farmer_selfie_Survey/upload/selfie-signature?surveyId=${surveyId}`,
+      `${BASE_URL}/api/v1/farmer_selfie_Survey/upload/selfie-signature?surveyId=${surveyId}`,
       {
         method: "POST",
         headers: {
@@ -628,7 +629,7 @@ useEffect(() => {
     const token = getValidToken();
 
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/farmer_selfie_Survey/${selfieId}`,
+      `${BASE_URL}/api/v1/farmer_selfie_Survey/${selfieId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -641,7 +642,7 @@ useEffect(() => {
     const token = getValidToken();
 
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/farmer_selfie_Survey/survey/${surveyId}`,
+      `${BASE_URL}/api/v1/farmer_selfie_Survey/survey/${surveyId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -653,7 +654,7 @@ useEffect(() => {
     const token = getValidToken();
 
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/farmer_selfie_Survey/${selfieId}`,
+      `${BASE_URL}/api/v1/farmer_selfie_Survey/${selfieId}`,
       {
         method: "PATCH",
         headers: {

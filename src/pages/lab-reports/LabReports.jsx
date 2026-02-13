@@ -3,9 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Search, MoreVertical, Eye, Download, Upload } from "lucide-react";
 import "./Lab.css";
 import { useToast } from "../../hooks/useToast";
+import { BASE_URL } from '../../config/api';
 
-// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const BASE_URL = "http://localhost:8080";
+
+
 const getToken = () => localStorage.getItem("token");
 
 const LabReports = () => {

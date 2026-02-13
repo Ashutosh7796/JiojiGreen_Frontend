@@ -3,7 +3,7 @@
 // import { MoreVertical, Eye, Power, PowerOff, Search } from "lucide-react";
 // import "./EmployeeList1.css";
 
-// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
+
 // const getToken = () => localStorage.getItem("token");
 
 // const EmployeeList = () => {
@@ -471,10 +471,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MoreVertical, Eye, Power, PowerOff, Search, MapPin } from "lucide-react";
+import { BASE_URL } from '../../config/api';
 import "./EmployeeList1.css";
 
-// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const BASE_URL = "http://localhost:8080";
+
+
 const getToken = () => localStorage.getItem("token");
 
 const EmployeeList = () => {

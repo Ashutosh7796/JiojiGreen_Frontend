@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/Jioji_logo.png';
+import { authApi } from '../../api/authApi';
 import '../auth/Login.css';
 
 const AdminLogin = () => {
@@ -13,14 +14,12 @@ const AdminLogin = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     
     setError('');
     setLoading(true);
-
-    // console.log('Admin Login attempt with:', { email: formData.email });
 
     // Validate form data
     if (!formData.email || !formData.password) {
@@ -29,20 +28,32 @@ const AdminLogin = () => {
       return;
     }
 
-    // Simulate a small delay (like an API call)
-    setTimeout(() => {
-      // console.log('Admin login successful, navigating to admin dashboard...');
-      
-      // Store basic session data
+    try {
+      // Use authApi for proper token storage
+      const response = await authApi.login({
+        email: formData.email,
+        password: formData.password
+      });
+
+      // Verify it's an admin
+      const role = localStorage.getItem('role');
+      if (role !== 'ADMIN' && role !== 'ROLE_ADMIN') {
+        setError('Access denied. Admin credentials required.');
+        await authApi.logout(); // Clear stored data
+        setLoading(false);
+        return;
+      }
+
+      // Store additional session data
       localStorage.setItem('userRole', 'ADMIN');
       localStorage.setItem('userEmail', formData.email);
       
       // Navigate to admin dashboard
-      // console.log('Navigating to: /admin/dashboard');
       navigate('/admin/dashboard', { replace: true });
-      
+    } catch (err) {
+      setError(err.message || 'Login failed. Please check your credentials.');
       setLoading(false);
-    }, 500);
+    }
   };
 
   return (

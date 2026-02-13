@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2, AlertCircle, MapPin } from "lucide-react";
 import { locationService } from "../../utils/locationService";
+import { BASE_URL } from '../../config/api';
 import "./Attendence.css";
 
-// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const BASE_URL = "http://localhost:8080";
+
+
 
 export default function ViewAttendance() {
   const navigate = useNavigate();

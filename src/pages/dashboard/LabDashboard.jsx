@@ -7,6 +7,7 @@ import { BsStopwatch } from "react-icons/bs";
 import { SlCalender } from "react-icons/sl";
 import { RiAccountBoxFill } from "react-icons/ri";
 import { VscFileSubmodule } from "react-icons/vsc";
+import { BASE_URL } from '../../config/api';
  
 import {
   PieChart,
@@ -28,8 +29,8 @@ const STATIC_TOTAL_REPORTS = 100;
 const STATIC_PENDING_REPORTS = 0;
  
 /* ================= API ================= */
-// const BASE_URL = "https://jiojibackendv1-production.up.railway.app";
-const BASE_URL = "http://localhost:8080";
+
+
 const getToken = () => localStorage.getItem("token");
  
 export default function LabDashboard() {
