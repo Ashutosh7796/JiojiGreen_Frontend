@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import Toast from '../components/Toast';
 
 export const useToast = () => {
   const [toasts, setToasts] = useState([]);
@@ -39,6 +40,23 @@ export const useToast = () => {
     return showToast(message, 'info', duration);
   }, [showToast]);
 
+  // Return a component function that can be used in JSX
+  const ToastComponent = () => {
+    return (
+      <div className="toast-container">
+        {toasts.map(toast => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            duration={toast.duration}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return {
     toasts,
     showToast,
@@ -46,6 +64,7 @@ export const useToast = () => {
     success,
     error,
     warning,
-    info
+    info,
+    ToastComponent
   };
 };
