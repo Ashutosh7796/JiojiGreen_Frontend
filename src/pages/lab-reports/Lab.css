@@ -156,40 +156,47 @@ body,
 }
 
 /* Column specific widths for better mobile viewing */
-.labreports-table-head th:nth-child(1), 
-.labreports-table-body td:nth-child(1) { /* Form Number */
+.labreports-table-head th:nth-child(1),
+.labreports-table-body td:nth-child(1) {
+  /* Form Number */
   min-width: 140px;
 }
 
-.labreports-table-head th:nth-child(2), 
-.labreports-table-body td:nth-child(2) { /* Farmer Name */
+.labreports-table-head th:nth-child(2),
+.labreports-table-body td:nth-child(2) {
+  /* Farmer Name */
   min-width: 130px;
 }
 
-.labreports-table-head th:nth-child(3), 
-.labreports-table-body td:nth-child(3) { /* Mobile */
+.labreports-table-head th:nth-child(3),
+.labreports-table-body td:nth-child(3) {
+  /* Mobile */
   min-width: 120px;
 }
 
-.labreports-table-head th:nth-child(4), 
-.labreports-table-body td:nth-child(4) { /* Land Area */
+.labreports-table-head th:nth-child(4),
+.labreports-table-body td:nth-child(4) {
+  /* Land Area */
   min-width: 100px;
 }
 
-.labreports-table-head th:nth-child(5), 
-.labreports-table-body td:nth-child(5) { /* Address */
+.labreports-table-head th:nth-child(5),
+.labreports-table-body td:nth-child(5) {
+  /* Address */
   min-width: 180px;
   white-space: normal;
   word-break: break-word;
 }
 
-.labreports-table-head th:nth-child(6), 
-.labreports-table-body td:nth-child(6) { /* Form Status */
+.labreports-table-head th:nth-child(6),
+.labreports-table-body td:nth-child(6) {
+  /* Form Status */
   min-width: 110px;
 }
 
-.labreports-table-head th:nth-child(7), 
-.labreports-table-body td:nth-child(7) { /* Action */
+.labreports-table-head th:nth-child(7),
+.labreports-table-body td:nth-child(7) {
+  /* Action */
   min-width: 80px;
   text-align: center;
 }
@@ -240,7 +247,7 @@ body,
 .labreports-action-menu {
   position: absolute;
   top: 28px;
-  right: 0; 
+  right: 0;
   min-width: 160px;
   background: #fff;
   border-radius: 10px;
@@ -272,6 +279,18 @@ body,
   font-size: 12px;
   color: #999;
   border-top: 1px solid #eee;
+}
+
+/* Greyed out state when report not uploaded */
+.labreports-menu-item-disabled {
+  opacity: 0.4;
+  color: #bbb;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.labreports-menu-item-disabled .labreports-menu-icon {
+  color: #ccc;
 }
 
 /* ================= PAGINATION ================= */
@@ -325,8 +344,13 @@ body,
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ================= INFO FOOTER ================= */
@@ -370,21 +394,21 @@ body.sidebar-closed .labreports-container {
   .labreports-container {
     padding: 20px 30px;
   }
-  
+
   .labreports-table {
     min-width: 950px;
   }
-  
+
   .labreports-table-head th,
   .labreports-table-body td {
     padding: 16px 20px;
   }
-  
+
   .labreports-filters {
     flex-direction: row;
     flex-wrap: wrap;
   }
-  
+
   .labreports-search-wrapper {
     max-width: 100%;
     flex: 1 1 30px;
@@ -393,13 +417,16 @@ body.sidebar-closed .labreports-container {
 
 /* Mobile (576px - 768px) */
 @media (max-width: 768px) {
+
   /* .labreports-container {
     padding: 15px 20px;
   } */
   .labreports-action-menu {
-    position: fixed !important;   /* 🔥 KEY FIX */
+    position: fixed !important;
+    /* 🔥 KEY FIX */
     top: auto;
-    bottom: 20px;                 /* stays visible */
+    bottom: 20px;
+    /* stays visible */
     left: 50%;
     transform: translateX(-50%);
     right: auto;
@@ -410,6 +437,7 @@ body.sidebar-closed .labreports-container {
     border-radius: 12px;
     z-index: 9999;
   }
+
   body.sidebar-open .labreports-container,
   body.sidebar-closed .labreports-container {
     margin-left: 0;
@@ -439,7 +467,7 @@ body.sidebar-closed .labreports-container {
     width: 100%;
     padding: 8px 12px;
   }
-  
+
   .labreports-search-input {
     font-size: 13px;
   }
@@ -452,47 +480,54 @@ body.sidebar-closed .labreports-container {
   .labreports-table {
     min-width: 1000px;
   }
-  
+
   .labreports-table-head th,
   .labreports-table-body td {
     padding: 14px 16px;
     font-size: 13px;
   }
-  
+
   /* Adjust column widths for mobile */
-  .labreports-table-head th:nth-child(1), 
-  .labreports-table-body td:nth-child(1) { /* Form Number */
+  .labreports-table-head th:nth-child(1),
+  .labreports-table-body td:nth-child(1) {
+    /* Form Number */
     min-width: 120px;
   }
-  
-  .labreports-table-head th:nth-child(2), 
-  .labreports-table-body td:nth-child(2) { /* Farmer Name */
+
+  .labreports-table-head th:nth-child(2),
+  .labreports-table-body td:nth-child(2) {
+    /* Farmer Name */
     min-width: 110px;
   }
-  
-  .labreports-table-head th:nth-child(3), 
-  .labreports-table-body td:nth-child(3) { /* Mobile */
+
+  .labreports-table-head th:nth-child(3),
+  .labreports-table-body td:nth-child(3) {
+    /* Mobile */
     min-width: 100px;
   }
-  
-  .labreports-table-head th:nth-child(4), 
-  .labreports-table-body td:nth-child(4) { /* Land Area */
+
+  .labreports-table-head th:nth-child(4),
+  .labreports-table-body td:nth-child(4) {
+    /* Land Area */
     min-width: 90px;
   }
-  
-  .labreports-table-head th:nth-child(5), 
-  .labreports-table-body td:nth-child(5) { /* Address */
+
+  .labreports-table-head th:nth-child(5),
+  .labreports-table-body td:nth-child(5) {
+    /* Address */
     min-width: 150px;
     font-size: 12.5px;
   }
-  
-  .labreports-table-head th:nth-child(6), 
-  .labreports-table-body td:nth-child(6) { /* Form Status */
+
+  .labreports-table-head th:nth-child(6),
+  .labreports-table-body td:nth-child(6) {
+    /* Form Status */
     min-width: 100px;
   }
-  
-  .labreports-table-head th:nth-child(7), 
-  .labreports-table-body td:nth-child(7) { /* Action */
+
+  .labreports-table-head th:nth-child(7),
+  .labreports-table-body td:nth-child(7) {
+    /* Action */
     min-width: 70px;
   }
 
@@ -505,35 +540,43 @@ body.sidebar-closed .labreports-container {
     opacity: 1;
     animation: fadeInOut 3s ease-in-out;
   }
-  
+
   @keyframes fadeInOut {
-    0%, 100% { opacity: 0; }
-    10%, 90% { opacity: 1; }
+
+    0%,
+    100% {
+      opacity: 0;
+    }
+
+    10%,
+    90% {
+      opacity: 1;
+    }
   }
 
   .labreports-pagination-footer {
     justify-content: center;
   }
-  
+
   .labreports-pagination {
     gap: 5px;
   }
-  
+
   .labreports-page-btn {
     padding: 6px 12px;
     font-size: 13px;
     min-width: 44px;
   }
-  
+
   .labreports-info-footer {
     text-align: center;
     font-size: 12px;
   }
-  
+
   /* .labreports-action-menu {
     right: 80px;
   } */
-   /* .labreports-action-backdrop {
+  /* .labreports-action-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
@@ -551,7 +594,7 @@ body.sidebar-closed .labreports-container {
   .labreports-title {
     font-size: 18px;
   }
-  
+
   .labreports-subtitle {
     font-size: 12px;
   }
@@ -559,46 +602,53 @@ body.sidebar-closed .labreports-container {
   .labreports-table {
     min-width: 950px;
   }
-  
+
   .labreports-table-head th,
   .labreports-table-body td {
     padding: 12px 14px;
     font-size: 12.5px;
   }
-  
-  .labreports-table-head th:nth-child(1), 
-  .labreports-table-body td:nth-child(1) { /* Form Number */
+
+  .labreports-table-head th:nth-child(1),
+  .labreports-table-body td:nth-child(1) {
+    /* Form Number */
     min-width: 110px;
   }
-  
-  .labreports-table-head th:nth-child(2), 
-  .labreports-table-body td:nth-child(2) { /* Farmer Name */
+
+  .labreports-table-head th:nth-child(2),
+  .labreports-table-body td:nth-child(2) {
+    /* Farmer Name */
     min-width: 100px;
   }
-  
-  .labreports-table-head th:nth-child(3), 
-  .labreports-table-body td:nth-child(3) { /* Mobile */
+
+  .labreports-table-head th:nth-child(3),
+  .labreports-table-body td:nth-child(3) {
+    /* Mobile */
     min-width: 90px;
   }
-  
-  .labreports-table-head th:nth-child(4), 
-  .labreports-table-body td:nth-child(4) { /* Land Area */
+
+  .labreports-table-head th:nth-child(4),
+  .labreports-table-body td:nth-child(4) {
+    /* Land Area */
     min-width: 80px;
   }
-  
-  .labreports-table-head th:nth-child(5), 
-  .labreports-table-body td:nth-child(5) { /* Address */
+
+  .labreports-table-head th:nth-child(5),
+  .labreports-table-body td:nth-child(5) {
+    /* Address */
     min-width: 130px;
     font-size: 12px;
   }
-  
-  .labreports-table-head th:nth-child(6), 
-  .labreports-table-body td:nth-child(6) { /* Form Status */
+
+  .labreports-table-head th:nth-child(6),
+  .labreports-table-body td:nth-child(6) {
+    /* Form Status */
     min-width: 90px;
   }
-  
-  .labreports-table-head th:nth-child(7), 
-  .labreports-table-body td:nth-child(7) { /* Action */
+
+  .labreports-table-head th:nth-child(7),
+  .labreports-table-body td:nth-child(7) {
+    /* Action */
     min-width: 60px;
   }
 
@@ -606,22 +656,22 @@ body.sidebar-closed .labreports-container {
     font-size: 11px;
     padding: 2px 8px;
   }
-  
+
   .labreports-pagination {
     width: 100%;
     justify-content: center;
   }
-  
+
   .labreports-page-btn {
     padding: 6px 10px;
     font-size: 12px;
     min-width: 40px;
   }
-  
+
   .labreports-dots-trigger {
     padding: 6px;
   }
-  
+
   .labreports-dots-trigger svg {
     width: 18px;
     height: 18px;
@@ -630,6 +680,7 @@ body.sidebar-closed .labreports-container {
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
+
   .labreports-menu-item,
   .labreports-dots-trigger,
   .labreports-page-btn {
@@ -639,7 +690,7 @@ body.sidebar-closed .labreports-container {
     align-items: center;
     justify-content: center;
   }
-  
+
   .labreports-dots-trigger {
     padding: 12px;
   }

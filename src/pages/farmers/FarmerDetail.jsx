@@ -45,44 +45,175 @@ const FarmerDetail = () => {
     fetchSurvey();
   }, [id]);
 
-  // ✅ Download Whole Form as PDF
+  // ✅ Download as proper office-style form PDF (no html2canvas — pure jsPDF)
   const handleDownloadPDF = async () => {
-    if (!pdfRef.current) return;
+    if (!data) return;
 
     try {
-      const element = pdfRef.current;
-
-      // Capture full content
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        scrollY: -window.scrollY,
-      });
-
-      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const marginL = 14;
+      const marginR = 14;
+      const contentW = pageW - marginL - marginR;
+      let y = 16;
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const checkPage = (needed) => {
+        if (y + needed > pageH - 14) {
+          pdf.addPage();
+          y = 14;
+        }
+      };
 
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      // --- Title ---
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(16);
+      pdf.text("FARMER SURVEY REPORT", pageW / 2, y, { align: "center" });
+      y += 10;
 
-      let heightLeft = imgHeight;
-      let position = 0;
+      // --- Helper: draw a bordered row with label & value ---
+      const drawRow = (label, value, rowH = 9) => {
+        checkPage(rowH);
+        const halfW = contentW / 2;
+        // label cell
+        pdf.setDrawColor(180);
+        pdf.rect(marginL, y, halfW, rowH);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(9);
+        pdf.setTextColor(80);
+        pdf.text(label, marginL + 3, y + 6);
+        // value cell
+        pdf.rect(marginL + halfW, y, halfW, rowH);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(10);
+        pdf.setTextColor(30);
+        const valText = String(value || "N/A");
+        pdf.text(valText, marginL + halfW + 3, y + 6);
+        y += rowH;
+      };
 
-      // first page
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+      // --- Helper: draw a full-width row ---
+      const drawFullRow = (label, value, rowH = 9) => {
+        checkPage(rowH);
+        const labelW = contentW * 0.3;
+        const valW = contentW * 0.7;
+        pdf.setDrawColor(180);
+        pdf.rect(marginL, y, labelW, rowH);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(9);
+        pdf.setTextColor(80);
+        pdf.text(label, marginL + 3, y + 6);
+        pdf.rect(marginL + labelW, y, valW, rowH);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(10);
+        pdf.setTextColor(30);
+        pdf.text(String(value || "N/A"), marginL + labelW + 3, y + 6);
+        y += rowH;
+      };
 
-      // multiple pages if content is large
-      while (heightLeft > 0) {
-        position = position - pdfHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
+      // --- Helper: section heading ---
+      const drawSectionHeading = (title) => {
+        checkPage(14);
+        y += 4;
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(12);
+        pdf.setTextColor(30);
+        pdf.text(title, marginL, y);
+        y += 2;
+        pdf.setDrawColor(30);
+        pdf.setLineWidth(0.5);
+        pdf.line(marginL, y, marginL + contentW, y);
+        y += 5;
+      };
+
+      // === HEADER INFO ===
+      drawSectionHeading("General Information");
+      drawRow("Form Number", data?.formNumber);
+      drawRow("Feedback ID", data?.surveyId || "New");
+      drawRow("Status", data?.formStatus);
+
+      // === FARMER INFORMATION ===
+      drawSectionHeading("Farmer Information");
+      drawRow("Name", data?.farmerName);
+      drawRow("User ID", data?.userId);
+      drawRow("Phone Number", data?.farmerMobile);
+      drawRow("Taluka", data?.taluka);
+      drawRow("District", data?.district);
+      drawFullRow("Address", data?.address);
+
+      // === SURVEY DETAILS ===
+      drawSectionHeading("Survey Details");
+      drawRow("Survey Type", "Survey");
+      drawRow("Submitted On",
+        data?.farmerSelfie?.takenAt
+          ? new Date(data.farmerSelfie.takenAt).toLocaleDateString("en-IN", {
+            day: "2-digit", month: "short", year: "numeric"
+          })
+          : "N/A"
+      );
+
+      if (data?.farmInformation) {
+        drawFullRow("Farm Information", data.farmInformation);
       }
+
+      // === FARM DETAILS ===
+      drawSectionHeading("Farm Details");
+      drawRow("Land Area", data?.landArea);
+      drawRow("Sample Collected", data?.sampleCollected ? "Yes" : "No");
+
+      if (data?.cropDetails && data.cropDetails.length > 0) {
+        drawFullRow("Crops Grown", data.cropDetails.join(", "));
+      }
+      if (data?.livestockDetails && data.livestockDetails.length > 0) {
+        drawFullRow("Livestock", data.livestockDetails.join(", "));
+      }
+      if (data?.productionEquipment && data.productionEquipment.length > 0) {
+        drawFullRow("Equipment", data.productionEquipment.join(", "));
+      }
+
+      // === FARMER SELFIE ===
+      if (data?.farmerSelfie?.imageUrl) {
+        drawSectionHeading("Farmer Photograph");
+        checkPage(60);
+
+        const imgW = 40;
+        const imgH = 50;
+        const imgX = (pageW - imgW) / 2;
+
+        // border around photo
+        pdf.setDrawColor(120);
+        pdf.setLineWidth(0.4);
+        pdf.rect(imgX - 1, y - 1, imgW + 2, imgH + 2);
+
+        try {
+          const imgSrc = `data:image/jpeg;base64,${data.farmerSelfie.imageUrl}`;
+          pdf.addImage(imgSrc, "JPEG", imgX, y, imgW, imgH);
+        } catch (e) {
+          pdf.setFontSize(9);
+          pdf.setTextColor(100);
+          pdf.text("(Photo unavailable)", pageW / 2, y + imgH / 2, { align: "center" });
+        }
+
+        y += imgH + 4;
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8);
+        pdf.setTextColor(100);
+        pdf.text("Farmer Selfie", pageW / 2, y, { align: "center" });
+        y += 6;
+      }
+
+      // --- Footer ---
+      checkPage(12);
+      y += 6;
+      pdf.setDrawColor(180);
+      pdf.setLineWidth(0.3);
+      pdf.line(marginL, y, marginL + contentW, y);
+      y += 5;
+      pdf.setFont("helvetica", "italic");
+      pdf.setFontSize(8);
+      pdf.setTextColor(140);
+      pdf.text(`Generated on ${new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}`, marginL, y);
+      pdf.text(`Form #${data?.formNumber || "N/A"}`, marginL + contentW, y, { align: "right" });
 
       pdf.save(`Survey-${data?.formNumber || id || "Details"}.pdf`);
     } catch (error) {
@@ -207,9 +338,9 @@ const FarmerDetail = () => {
                 <div className="info-value">
                   {data?.farmerSelfie?.takenAt
                     ? new Date(data.farmerSelfie.takenAt).toLocaleDateString(
-                        "en-IN",
-                        { day: "2-digit", month: "short", year: "numeric" }
-                      )
+                      "en-IN",
+                      { day: "2-digit", month: "short", year: "numeric" }
+                    )
                     : "N/A"}
                 </div>
               </div>
@@ -241,8 +372,8 @@ const FarmerDetail = () => {
             </div>
 
             {data?.cropDetails && data.cropDetails.length > 0 && (
-              <div style={{ marginTop: "20px" }}>
-                <div className="info-label" style={{ marginBottom: "10px" }}>Crops Grown</div>
+              <div className="subsection-group">
+                <div className="subsection-label">Crops Grown</div>
                 <div className="list-items">
                   {data.cropDetails.map((crop, index) => (
                     <span key={index} className="list-tag">🌱 {crop}</span>
@@ -252,8 +383,8 @@ const FarmerDetail = () => {
             )}
 
             {data?.livestockDetails && data.livestockDetails.length > 0 && (
-              <div style={{ marginTop: "20px" }}>
-                <div className="info-label" style={{ marginBottom: "10px" }}>Livestock</div>
+              <div className="subsection-group">
+                <div className="subsection-label">Livestock</div>
                 <div className="list-items">
                   {data.livestockDetails.map((animal, index) => (
                     <span key={index} className="list-tag">🐄 {animal}</span>
@@ -263,8 +394,8 @@ const FarmerDetail = () => {
             )}
 
             {data?.productionEquipment && data.productionEquipment.length > 0 && (
-              <div style={{ marginTop: "20px" }}>
-                <div className="info-label" style={{ marginBottom: "10px" }}>Equipment</div>
+              <div className="subsection-group">
+                <div className="subsection-label">Equipment</div>
                 <div className="list-items">
                   {data.productionEquipment.map((equipment, index) => (
                     <span key={index} className="list-tag">🚜 {equipment}</span>
@@ -291,7 +422,7 @@ const FarmerDetail = () => {
                     />
                   </div>
                   <span className="file-label">Farmer Selfie</span>
-                  <button className="btn-download-image" onClick={handleDownloadImage}>
+                  <button className="btn-download-image no-print" onClick={handleDownloadImage}>
                     Download Image
                   </button>
                 </div>

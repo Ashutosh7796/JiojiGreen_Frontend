@@ -183,9 +183,8 @@ const LabReports = () => {
 
   /* ================= SEARCH FILTER ================= */
   const filteredReports = reports.filter((item) =>
-    `${item.farmerName || ""} ${item.formNumber || ""} ${
-      item.farmerMobile || ""
-    }`
+    `${item.farmerName || ""} ${item.formNumber || ""} ${item.farmerMobile || ""
+      }`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
@@ -275,19 +274,19 @@ const LabReports = () => {
                           className="labreports-menu-item"
                           onClick={() => handleUpload(r.surveyId)}
                         >
-                          <Upload size={16} className="labreports-menu-icon" /> Upload
+                          <Upload size={16} className="labreports-menu-icon" /> {hasReport(r) ? "Re-upload" : "Upload"}
                         </div>
 
                         <div
-                          className="labreports-menu-item"
-                          onClick={() => handleView(r.surveyId)}
+                          className={`labreports-menu-item ${!hasReport(r) ? "labreports-menu-item-disabled" : ""}`}
+                          onClick={() => hasReport(r) && handleView(r.surveyId)}
                         >
                           <Eye size={16} className="labreports-menu-icon" /> View
                         </div>
 
                         <div
-                          className="labreports-menu-item"
-                          onClick={() => handleDownload(r.surveyId)}
+                          className={`labreports-menu-item ${!hasReport(r) ? "labreports-menu-item-disabled" : ""}`}
+                          onClick={() => hasReport(r) && handleDownload(r.surveyId)}
                         >
                           <Download size={16} className="labreports-menu-icon" /> Download
                         </div>
@@ -351,10 +350,10 @@ const LabReports = () => {
         Showing {filteredReports.length} of {reports.length} reports
         {(isMobile || isTablet) && " • Scroll horizontally to view all columns"}
       </div>
-      
+
       {/* Toast Notifications */}
       <ToastComponent />
-    </div>
+    </div >
   );
 };
 
