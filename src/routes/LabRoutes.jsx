@@ -13,7 +13,7 @@ const LabRoutes = () => {
   }, [location]);
 
   return (
-    <Suspense fallback={<div className="loading"><div className="spinner"></div></div>}>
+    <Suspense fallback={<div className="loading-container"><div className="spinner"></div></div>}>
       <Routes>
         <Route element={<LabLayout />}>
           {/* Lab Dashboard */}

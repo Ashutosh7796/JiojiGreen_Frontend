@@ -30,7 +30,7 @@ import './styles/main.css';
 
 // Simple Loading Component
 const PageLoader = () => (
-  <div className="loading-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+  <div className="loading-container">
     <div className="spinner"></div>
   </div>
 );

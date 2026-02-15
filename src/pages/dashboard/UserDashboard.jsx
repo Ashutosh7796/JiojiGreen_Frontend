@@ -106,7 +106,7 @@ const UserDashboard = () => {
       <div style={{ marginTop: '40px' }}>
         <h2 style={{ marginBottom: '20px' }}>Available Seed Products</h2>
         {productsLoading ? (
-          <div className="loading"><div className="spinner"></div></div>
+          <div className="loading-section"><div className="spinner"></div></div>
         ) : (
           <div className="dashboard-stats">
             {products?.content?.length > 0 ? (
@@ -128,7 +128,7 @@ const UserDashboard = () => {
           </div>
         )}
       </div>
-      
+
       {/* Toast Notifications */}
       <ToastComponent />
     </div>

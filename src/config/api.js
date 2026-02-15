@@ -1,11 +1,8 @@
 import { getErrorMessage, handleAuthError } from '../utils/errorHandler';
 import { checkRateLimit } from '../utils/rateLimiter';
 
-// TEMPORARY: Hardcoded for testing - remove after confirming it works
-const HARDCODED_URL = "https://api3.dostenterprises.com";
-
-// Use environment variable or fallback to localhost
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL || HARDCODED_URL;
+// Use environment variable
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Debug logs removed for security
 

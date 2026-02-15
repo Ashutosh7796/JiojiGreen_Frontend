@@ -20,11 +20,11 @@
 
   --border-color: #e0e0e0;
 
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
 
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 
   --radius: 12px;
 
@@ -98,7 +98,7 @@ body {
 
   background: radial-gradient(circle at top left, #e8f5e9, #ffffff),
 
-  radial-gradient(circle at bottom right, #f3e5f5, #ffffff);
+    radial-gradient(circle at bottom right, #f3e5f5, #ffffff);
 
   padding: 20px;
 
@@ -128,9 +128,15 @@ body {
 
 @keyframes slideUp {
 
-  from { opacity: 0; transform: translateY(20px); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-  to { opacity: 1; transform: translateY(0); }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
 }
 
@@ -350,7 +356,7 @@ body {
 
   margin-bottom: 32px;
 
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
   display: flex;
 
@@ -390,7 +396,7 @@ body {
 
   padding: 12px 16px;
 
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 
   text-decoration: none;
 
@@ -402,9 +408,10 @@ body {
 
 }
 
-.sidebar-menu a:hover, .sidebar-menu a.active {
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
 
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 
   color: white;
 
@@ -434,7 +441,7 @@ body {
 
 .top-bar {
 
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
 
   backdrop-filter: blur(8px);
 
@@ -550,13 +557,25 @@ body {
 
 }
 
-.stat-card.purple .stat-icon { background: #f3e5f5; color: #7b1fa2; }
+.stat-card.purple .stat-icon {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
 
-.stat-card.green .stat-icon { background: #e8f5e9; color: #2e7d32; }
+.stat-card.green .stat-icon {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
 
-.stat-card.orange .stat-icon { background: #fff3e0; color: #ff9800; }
+.stat-card.orange .stat-icon {
+  background: #fff3e0;
+  color: #ff9800;
+}
 
-.stat-card.blue .stat-icon { background: #e3f2fd; color: #1976d2; }
+.stat-card.blue .stat-icon {
+  background: #e3f2fd;
+  color: #1976d2;
+}
 
 /* Tables */
 
@@ -650,11 +669,20 @@ tbody tr:hover {
 
 }
 
-.status-badge.active { background: #dcfce7; color: #166534; }
+.status-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
 
-.status-badge.pending { background: #fef9c3; color: #854d0e; }
+.status-badge.pending {
+  background: #fef9c3;
+  color: #854d0e;
+}
 
-.status-badge.delivered { background: #dbeafe; color: #1e40af; }
+.status-badge.delivered {
+  background: #dbeafe;
+  color: #1e40af;
+}
 
 /* Modal */
 
@@ -664,7 +692,7 @@ tbody tr:hover {
 
   inset: 0;
 
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
 
   backdrop-filter: blur(4px);
 
@@ -702,9 +730,15 @@ tbody tr:hover {
 
 @keyframes modalScale {
 
-  from { opacity: 0; transform: scale(0.95); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 
-  to { opacity: 1; transform: scale(1); }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 
 }
 
@@ -748,71 +782,63 @@ tbody tr:hover {
 
 }
 
+
 /* Loading Glassmorphism */
-
-.loading-overlay {
-
+.loading-container {
   position: fixed;
-
   inset: 0;
-
-  background: rgba(255,255,255,0.7);
-
-  backdrop-filter: blur(8px);
-
   display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
   justify-content: center;
-
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   z-index: 9999;
+}
 
+.loading-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  width: 100%;
 }
 
 .spinner {
-
-  width: 48px;
-
-  height: 48px;
-
-  border: 4px solid var(--primary-light);
-
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(46, 125, 50, 0.2);
   border-top-color: var(--primary-dark);
-
   border-radius: 50%;
-
-  animation: spin 1s linear infinite;
-
+  animation: spin 0.8s ease-in-out infinite;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes spin {
-
-  to { transform: rotate(360deg); }
-
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 1024px) {
 
   .sidebar {
 
-  width: 80px;
+    width: 80px;
 
-  padding: 32px 12px;
+    padding: 32px 12px;
 
   }
 
-  .sidebar-logo span, .sidebar-menu a span {
+  .sidebar-logo span,
+  .sidebar-menu a span {
 
-  display: none;
+    display: none;
 
   }
 
   .main-content {
 
-  margin-left: 80px;
+    margin-left: 80px;
 
   }
 
@@ -826,53 +852,53 @@ tbody tr:hover {
 
   body {
 
-  font-size: 14px;
+    font-size: 14px;
 
   }
 
   .auth-container {
 
-  padding: 10px;
+    padding: 10px;
 
   }
 
   .auth-card {
 
-  width: 100%;
+    width: 100%;
 
-  margin: 0 auto;
+    margin: 0 auto;
 
   }
 
   .sidebar {
 
-  width: 60px;
+    width: 60px;
 
   }
 
   .sidebar.expanded {
 
-  width: 200px;
+    width: 200px;
 
   }
 
   .main-viewport {
 
-  padding: 10px;
+    padding: 10px;
 
   }
 
   table {
 
-  font-size: 12px;
+    font-size: 12px;
 
   }
 
   .pagination button {
 
-  font-size: 12px;
+    font-size: 12px;
 
-  padding: 5px;
+    padding: 5px;
 
   }
 
@@ -884,45 +910,45 @@ tbody tr:hover {
 
   body {
 
-  font-size: 12px;
+    font-size: 12px;
 
   }
 
   .auth-card {
 
-  padding: 5px;
+    padding: 5px;
 
   }
 
   .sidebar {
 
-  width: 50px;
+    width: 50px;
 
   }
 
   .sidebar.expanded {
 
-  width: 150px;
+    width: 150px;
 
   }
 
   .main-viewport {
 
-  padding: 5px;
+    padding: 5px;
 
   }
 
   table {
 
-  font-size: 10px;
+    font-size: 10px;
 
   }
 
   .pagination button {
 
-  font-size: 10px;
+    font-size: 10px;
 
-  padding: 3px;
+    padding: 3px;
 
   }
 
@@ -960,7 +986,7 @@ tbody tr:hover {
 
   max-width: 420px;
 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
   text-align: center;
 
@@ -976,7 +1002,8 @@ tbody tr:hover {
 
 .brand-name {
 
-  font-family: 'Times New Roman', serif; /* Matching the serif font in image */
+  font-family: 'Times New Roman', serif;
+  /* Matching the serif font in image */
 
   font-size: 22px;
 
@@ -1086,7 +1113,8 @@ tbody tr:hover {
 
   padding: 12px;
 
-  background-color: #7b1fa2; /* Purple button */
+  background-color: #7b1fa2;
+  /* Purple button */
 
   color: white;
 

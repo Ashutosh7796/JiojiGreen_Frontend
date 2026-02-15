@@ -23,7 +23,7 @@ const Dashboard = () => {
   const isTablet = windowWidth <= 1024;
 
   if (statsLoading || farmersLoading) {
-    return <div className="loading"><div className="spinner"></div></div>;
+    return <div className="loading-container"><div className="spinner"></div></div>;
   }
 
   const dashboardStats = stats || {
@@ -46,13 +46,13 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-wrapper" style={{ padding: isMobile ? '10px' : '20px' }}>
-      
+
       {/* 1. GREEN STAT CARDS - Now Responsive */}
-      <div 
-        className="stats-grid" 
-        style={{ 
+      <div
+        className="stats-grid"
+        style={{
           gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : 'repeat(4, 1fr)',
-          gap: isMobile ? '15px' : '20px' 
+          gap: isMobile ? '15px' : '20px'
         }}
       >
         <div className="stat-card-green">
@@ -94,8 +94,8 @@ const Dashboard = () => {
         <div className="box-header">
           <h2>Quick Actions</h2>
         </div>
-        <div style={{ 
-          display: 'grid', 
+        <div style={{
+          display: 'grid',
           gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : 'repeat(4, 1fr)',
           gap: '16px',
           padding: '20px'
@@ -124,7 +124,7 @@ const Dashboard = () => {
         <div className="box-header" style={{ flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', gap: '10px' }}>
           <h2>Orders Overview</h2>
         </div>
-        
+
         {/* Responsive Table Wrapper */}
         <div style={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
           <table className="dashboard-table" style={{ minWidth: isMobile ? '650px' : '100%' }}>
@@ -168,8 +168,8 @@ const Dashboard = () => {
       </div>
 
       {/* 3. GRAPH AND WORK STATS SECTION - Now Stacks */}
-      <div 
-        className="middle-grid" 
+      <div
+        className="middle-grid"
         style={{ gridTemplateColumns: isTablet ? '1fr' : '1.5fr 1fr' }}
       >
         <div className="content-box">
@@ -180,7 +180,7 @@ const Dashboard = () => {
               <span className="legend-item"><i className="legend-dot actual"></i> 40% Plan</span>
             </div>
           </div>
-          
+
           <div className="graph-container" style={{ overflowX: isMobile ? 'auto' : 'visible' }}>
             <div className="y-axis">
               <span>80k</span><span>6k</span><span>2k</span><span>0</span>
@@ -226,7 +226,7 @@ const Dashboard = () => {
         <div className="box-header">
           <h2>Visit Employee & Work Orders</h2>
         </div>
-        
+
         {/* Responsive Table Wrapper */}
         <div style={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
           <table className="dashboard-table" style={{ minWidth: isMobile ? '700px' : '100%' }}>

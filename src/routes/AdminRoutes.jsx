@@ -22,7 +22,7 @@ const AdminRoutes = () => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div className="loading"><div className="spinner"></div></div>;
+    return <div className="loading-container"><div className="spinner"></div></div>;
   }
 
   if (!isAuthenticated) {
@@ -30,7 +30,7 @@ const AdminRoutes = () => {
   }
 
   return (
-    <Suspense fallback={<div className="loading"><div className="spinner"></div></div>}>
+    <Suspense fallback={<div className="loading-container"><div className="spinner"></div></div>}>
       <Routes>
         <Route element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />

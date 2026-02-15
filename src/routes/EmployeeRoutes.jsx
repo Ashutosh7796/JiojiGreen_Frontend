@@ -17,7 +17,7 @@ const EmployeeRoutes = () => {
   }, [location]);
 
   return (
-    <Suspense fallback={<div className="loading"><div className="spinner"></div></div>}>
+    <Suspense fallback={<div className="loading-container"><div className="spinner"></div></div>}>
       <Routes>
         <Route element={<EmployeeLayout />}>
           <Route path="dashboard" element={<EmployeeDashboard />} />
