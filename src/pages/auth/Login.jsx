@@ -4,10 +4,10 @@ import "./Login.css";
 import jioji from "../../assets/Jioji_logo.png";
 
 import sweetCorn1 from "../../assets/products_images/sweetcorn1.jpeg";
-import apple from "../../assets/products_images/apple.jpeg";
+import ladyfinger from "../../assets/products_images/ladyfinger.jpg";
 import wheat from "../../assets/products_images/wheat.jpeg";
 import watermelon from "../../assets/products_images/watermelon.jpeg";
-import orange from "../../assets/products_images/orange.jpeg";
+import tomatoseeds from "../../assets/products_images/tomatoseeds.jpg";
 import sunflower from "../../assets/products_images/sunflower.jpeg";
 import bittermelon from "../../assets/products_images/bittermelon.jpeg";
 import carrot from "../../assets/products_images/carrot.jpeg";
@@ -92,14 +92,14 @@ const products = [
   },
   {
     tag: "Fresh Produce",
-    title: "Apple",
-    category: "Fruits",
+    title: "Lady Finger",
+    category: "Vegetables",
     rating: "4.7",
     reviews: "210",
     stock: "In Stock",
     //     price: "₹180",
     //     oldPrice: "₹220",
-    images: [apple],
+    images: [ladyfinger],
   },
   {
     tag: "Best Seller",
@@ -124,15 +124,15 @@ const products = [
     images: [watermelon],
   },
   {
-    tag: "Fresh Produce",
-    title: "Orange",
-    category: "Fruits",
-    rating: "4.4",
-    reviews: "176",
+    tag: "High Yield",
+    title: "Tomato Seeds",
+    category: "Seeds",
+    rating: "4.8",
+    reviews: "250",
     stock: "In Stock",
     //     price: "₹150",
     //     oldPrice: "₹190",
-    images: [orange],
+    images: [tomatoseeds],
   },
   {
     tag: "Popular",
