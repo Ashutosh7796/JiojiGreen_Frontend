@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 import jioji from "../../assets/Jioji_logo.png";
@@ -97,8 +97,8 @@ const products = [
     rating: "4.7",
     reviews: "210",
     stock: "In Stock",
-//     price: "₹180",
-//     oldPrice: "₹220",
+    //     price: "₹180",
+    //     oldPrice: "₹220",
     images: [apple],
   },
   {
@@ -108,8 +108,8 @@ const products = [
     rating: "4.6",
     reviews: "154",
     stock: "In Stock",
-//     price: "₹249",
-//     oldPrice: "₹320",
+    //     price: "₹249",
+    //     oldPrice: "₹320",
     images: [wheat],
   },
   {
@@ -119,8 +119,8 @@ const products = [
     rating: "4.5",
     reviews: "198",
     stock: "In Stock",
-//     price: "₹120",
-//     oldPrice: "₹160",
+    //     price: "₹120",
+    //     oldPrice: "₹160",
     images: [watermelon],
   },
   {
@@ -130,8 +130,8 @@ const products = [
     rating: "4.4",
     reviews: "176",
     stock: "In Stock",
-//     price: "₹150",
-//     oldPrice: "₹190",
+    //     price: "₹150",
+    //     oldPrice: "₹190",
     images: [orange],
   },
   {
@@ -141,8 +141,8 @@ const products = [
     rating: "4.8",
     reviews: "230",
     stock: "In Stock",
-//     price: "₹199",
-//     oldPrice: "₹260",
+    //     price: "₹199",
+    //     oldPrice: "₹260",
     images: [sunflower],
   },
   {
@@ -152,8 +152,8 @@ const products = [
     rating: "4.3",
     reviews: "142",
     stock: "In Stock",
-//     price: "₹179",
-//     oldPrice: "₹230",
+    //     price: "₹179",
+    //     oldPrice: "₹230",
     images: [bittermelon],
   },
   {
@@ -163,8 +163,8 @@ const products = [
     rating: "4.6",
     reviews: "165",
     stock: "In Stock",
-//     price: "₹159",
-//     oldPrice: "₹210",
+    //     price: "₹159",
+    //     oldPrice: "₹210",
     images: [carrot],
   },
 ];
@@ -223,16 +223,71 @@ export default function Login() {
   const [apiError, setApiError] = useState("");
   const [loginOkMsg, setLoginOkMsg] = useState("");
 
-  useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (categoryRef.current && !categoryRef.current.contains(e.target)) {
-      setOpenCategory(null);
-    }
-  };
+  // Sticky header state
+  const [isSticky, setIsSticky] = useState(false);
+  const heroTopRef = useRef(null);
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
+  // Animated counter state
+  const [counters, setCounters] = useState({ farmers: 0, products: 0, districts: 0 });
+  const statsRef = useRef(null);
+  const statsAnimated = useRef(false);
+
+  // Scroll-triggered reveal
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Sticky header on scroll
+  useEffect(() => {
+    const onScroll = () => setIsSticky(window.scrollY > 120);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Animated number counter
+  const animateCounters = useCallback(() => {
+    if (statsAnimated.current) return;
+    statsAnimated.current = true;
+    const targets = { farmers: 5000, products: 100, districts: 50 };
+    const duration = 1800;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      setCounters({
+        farmers: Math.round(targets.farmers * ease),
+        products: Math.round(targets.products * ease),
+        districts: Math.round(targets.districts * ease),
+      });
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) animateCounters(); },
+      { threshold: 0.3 }
+    );
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => observer.disconnect();
+  }, [animateCounters]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (categoryRef.current && !categoryRef.current.contains(e.target)) {
+        setOpenCategory(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
 
   useEffect(() => {
@@ -313,7 +368,7 @@ export default function Login() {
       {/* HERO */}
       <section className="hero">
         <div className="container heroInner">
-          <div className="heroTop">
+          <div className={`heroTop ${isSticky ? "sticky" : ""}`} ref={heroTopRef}>
             <div className="heroLogo">
               <img className="logoImg" src={jioji} alt="Jioji" />
             </div>
@@ -422,7 +477,7 @@ export default function Login() {
               </button>
 
               <div style={{ marginTop: 10, fontSize: 12, opacity: 0.8 }}>
-                Token in storage: {localStorage.getItem("token") ? "YES" : "NO"} 
+                Token in storage: {localStorage.getItem("token") ? "YES" : "NO"}
 
                 Role in storage: {localStorage.getItem("role") || "NO"}
               </div>
@@ -434,12 +489,12 @@ export default function Login() {
       {/* FULL-WIDTH CONTENT */}
       <section className="contentFull">
         <div className="container">
-          <div className="sectionHead center">
+          <div className="sectionHead center reveal">
             <h2 className="h2">Shop by Category</h2>
             <p className="muted">Find everything you need for your farm in one place</p>
           </div>
 
-          <div className="catGrid" ref={categoryRef}>
+          <div className="catGrid reveal" ref={categoryRef}>
             {categories.map((c) => (
               <button
                 key={c.title}
@@ -479,7 +534,7 @@ export default function Login() {
             ))}
           </div>
 
-          <div className="sectionRow">
+          <div className="sectionRow reveal">
             <div>
               <h3 className="h3">Featured Products</h3>
               <p className="muted small">Top-rated products loved by farmers</p>
@@ -489,7 +544,7 @@ export default function Login() {
             </a>
           </div>
 
-          <div className="prodGrid">
+          <div className="prodGrid reveal">
             {products.map((p, idx) => (
               <div key={`${p.title}-${idx}`} className="prodCard">
                 <div className="prodImgWrap">
@@ -525,7 +580,7 @@ export default function Login() {
           </div>
 
           <section className="trust">
-            <div className="sectionHead center">
+            <div className="sectionHead center reveal">
               <div className="miniPill">Why Farmers Trust Us</div>
               <h2 className="h2 bigTitle">Quality You Can Rely On</h2>
               <p className="muted trustSub">
@@ -534,7 +589,7 @@ export default function Login() {
               </p>
             </div>
 
-            <div className="trustGrid">
+            <div className="trustGrid reveal">
               {trustCards.map((t) => (
                 <div key={t.title} className="trustCard">
                   <div className="trustIcon">{t.icon}</div>
@@ -544,13 +599,19 @@ export default function Login() {
               ))}
             </div>
 
-            <div className="statsBar">
-              {stats.map((s) => (
-                <div key={s.small} className="stat">
-                  <div className="statBig">{s.big}</div>
-                  <div className="statSmall">{s.small}</div>
-                </div>
-              ))}
+            <div className="statsBar reveal" ref={statsRef}>
+              <div className="stat">
+                <div className="statBig">{counters.farmers.toLocaleString()}+</div>
+                <div className="statSmall">Happy Farmers</div>
+              </div>
+              <div className="stat">
+                <div className="statBig">{counters.products}+</div>
+                <div className="statSmall">Products</div>
+              </div>
+              <div className="stat">
+                <div className="statBig">{counters.districts}+</div>
+                <div className="statSmall">Districts Served</div>
+              </div>
             </div>
           </section>
 
@@ -576,7 +637,7 @@ export default function Login() {
                 <div className="contact">
                   <div className="contactItem">
                     <IoCallSharp />
-                    <a href="tel:+919766722922"className="contactLink">
+                    <a href="tel:+919766722922" className="contactLink">
                       +91 91753 12722
                     </a>
                   </div>
@@ -628,4 +689,3 @@ export default function Login() {
     </div>
   );
 }
- 

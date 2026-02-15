@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./authLogin.css";
 
@@ -48,6 +48,7 @@ function getDashboardPathByRole(role) {
 export default function AuthLogin() {
   const navigate = useNavigate();
   const userIdRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -58,6 +59,85 @@ export default function AuthLogin() {
 
   useEffect(() => {
     setTimeout(() => userIdRef.current?.focus?.(), 0);
+  }, []);
+
+  /* ===== ABSTRACT LINES CANVAS ===== */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animId;
+
+    // Nodes that drift around and connect with lines
+    const NODE_COUNT = 60;
+    const nodes = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Initialize nodes with random positions and velocities
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        r: Math.random() * 2 + 1,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const maxDist = 160;
+
+      // Update node positions
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        // Bounce off edges
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+      }
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(167, 139, 250, ${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(167, 139, 250, 0.35)";
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
   }, []);
 
   /* ================= LOGIN ================= */
@@ -140,6 +220,9 @@ export default function AuthLogin() {
 
   return (
     <div className="authBg">
+      {/* Abstract generative lines canvas */}
+      <canvas ref={canvasRef} className="authCanvas"></canvas>
+
       <div className="authCard">
         <div className="authBrand">
           <img className="authLogo" src={jioji} alt="Jioji Green India" />
@@ -147,7 +230,7 @@ export default function AuthLogin() {
 
         <h1 className="authHeading">Login</h1>
 
-        {apiError && <div className="authError">{apiError}</div>}
+        {apiError && <div className="authError" key={apiError}>{apiError}</div>}
 
         <form className="authForm" onSubmit={onSubmit}>
           <label className="authLabel">
@@ -208,7 +291,7 @@ export default function AuthLogin() {
           </div>
 
           <button className="authBtn" type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Signing in…" : "Sign In"}
           </button>
 
           <div className="authTiny">

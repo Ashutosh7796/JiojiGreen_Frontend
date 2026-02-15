@@ -1,0 +1,118 @@
+/* ===== MODERN ANIMATED HOMEPAGE ===== */
+/* Enhanced by UI Animation Designer */
+
+:root{
+  --bg:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --card:#ffffff;
+  --border:#e5e7eb;
+
+  --purple1:#6f1d8f;
+  --purple2:#8f3aa7;
+  --purpleSoft:#f2e9f6;
+
+  --green:#16a34a;
+  --greenDark:#0f8a3b;
+
+  --max: 1120px;
+  --maxContent: 1500px;
+  --fontBump: 5px;
+}
+
+/* ===== SMOOTH ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(111, 29, 143, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(111, 29, 143, 0.6); }
+}
+
+/* ===== BASE STYLES ===== */
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+html{
+  font-size: calc(16px + var(--fontBump));
+  scroll-behavior: smooth;
+}
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--text);
+  background:var(--bg);
+  overflow-x: hidden;
+}
+
+.page{ 
+  width:100%; 
+  position: relative;
+}
