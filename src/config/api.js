@@ -7,10 +7,7 @@ const HARDCODED_URL = "https://api3.dostenterprises.com";
 // Use environment variable or fallback to localhost
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL || HARDCODED_URL;
 
-// Debug: Log the BASE_URL being used (remove this in production)
-console.log('🔧 API BASE_URL:', BASE_URL);
-console.log('🔧 Environment Variable:', import.meta.env.VITE_API_BASE_URL);
-console.log('🔧 All Vite env vars:', import.meta.env);
+// Debug logs removed for security
 
 export const getAuthHeaders = (isFormData = false) => {
   const token = localStorage.getItem("token");
@@ -40,7 +37,7 @@ export const enhancedFetch = async (url, options = {}, config = {}) => {
     rateLimitType = 'api',
     skipAuth = false,
   } = config;
-  
+
   // Check rate limit
   if (!skipRateLimit) {
     const rateCheck = checkRateLimit(url, rateLimitType);
@@ -48,19 +45,19 @@ export const enhancedFetch = async (url, options = {}, config = {}) => {
       throw new Error(rateCheck.message);
     }
   }
-  
+
   // Add auth headers if not skipped
   const headers = skipAuth ? options.headers : {
     ...getAuthHeaders(options.isFormData),
     ...options.headers,
   };
-  
+
   try {
     const response = await fetch(url, {
       ...options,
       headers,
     });
-    
+
     // Handle authentication errors
     if (response.status === 401) {
       const errorData = await response.json().catch(() => ({}));
@@ -69,7 +66,7 @@ export const enhancedFetch = async (url, options = {}, config = {}) => {
       error.data = errorData;
       throw error;
     }
-    
+
     // Handle other HTTP errors
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -78,7 +75,7 @@ export const enhancedFetch = async (url, options = {}, config = {}) => {
       error.data = errorData;
       throw error;
     }
-    
+
     return response;
   } catch (error) {
     // Enhance error with user-friendly message

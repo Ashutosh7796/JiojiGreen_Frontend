@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import LabLayout from "../layouts/LabLayout";
-import LabDashboard from "../pages/dashboard/LabDashboard";
-import LabReports from "../pages/lab-reports/LabReports";
-
-
+const LabLayout = lazy(() => import('../layouts/LabLayout'));
+const LabDashboard = lazy(() => import('../pages/dashboard/LabDashboard'));
+const LabReports = lazy(() => import('../pages/lab-reports/LabReports'));
 
 const LabRoutes = () => {
   const location = useLocation();
@@ -15,37 +13,22 @@ const LabRoutes = () => {
   }, [location]);
 
   return (
-    <Routes>
-      <Route element={<LabLayout />}>
-        {/* Lab Dashboard */}
-        <Route
-          path="dashboard"
-          element={
-            <>
-              {console.log("Rendering LabDashboard")}
-              <LabDashboard />
-            </>
-          }
-        />
-
-        {/* Lab Report */}
-        <Route path="report" element={<LabReports />} />
-
-        {/* Default Route - Redirect to Dashboard */}
-        <Route
-          path="*"
-          element={
-            <>
-              {console.log(
-                "Redirecting to /lab/dashboard from:",
-                location.pathname
-              )}
-              <Navigate to="/lab/dashboard" replace />
-            </>
-          }
-        />
-      </Route>
-    </Routes>
+    <Suspense fallback={<div className="loading"><div className="spinner"></div></div>}>
+      <Routes>
+        <Route element={<LabLayout />}>
+          {/* Lab Dashboard */}
+          <Route
+            path="dashboard"
+            element={
+              <>
+                {/* Redirecting to dashboard */}
+                <Navigate to="/lab/dashboard" replace />
+              </>
+            }
+          />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
 
