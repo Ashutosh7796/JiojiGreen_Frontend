@@ -3,7 +3,7 @@ import farmerImg from "../../assets/farmer.webp";
  
 export default function AboutUs() {
   useLayoutEffect(() => {
-    // ✅ Disable browser scroll restoration
+   
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
@@ -212,7 +212,7 @@ export default function AboutUs() {
  
         <div style={styles.card}>
           <p style={styles.p}>
-            At <strong>Jioji Green</strong>, we believe in working hand-in-hand
+            At <strong>Jioji Green India Pvt Ltd</strong>, we believe in working hand-in-hand
             with accredited farmers who share our values of quality, purity, and
             sustainability.
           </p>

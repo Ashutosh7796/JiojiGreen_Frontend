@@ -243,7 +243,7 @@ export default function ContactUs() {
           </div>
  
           <div>
-            <div style={brandTitle}>Jioji Green India</div>
+            <div style={brandTitle}>Jioji Green India Pvt Ltd</div>
             <div style={brandSub}>
               Your trusted partner for quality farm products. We deliver certified seeds, fertilizers, and tools to
               farmers across India.

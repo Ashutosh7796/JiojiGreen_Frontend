@@ -103,7 +103,7 @@ const products = [
   },
   {
     tag: "Best Seller",
-    title: "Wheat Seeds",
+    title: "Rice Seeds",
     category: "Seeds",
     rating: "4.6",
     reviews: "154",
@@ -158,7 +158,7 @@ const products = [
   },
   {
     tag: "Organic",
-    title: "Carrot Seeds",
+    title: "Chilli Seeds",
     category: "Seeds",
     rating: "4.6",
     reviews: "165",
@@ -626,7 +626,7 @@ export default function Login() {
                       className="brandLogo"
                     />
                   </span>
-                  <span className="brandName">Jioji Green India</span>
+                  <span className="brandName">Jioji Green India Pvt Ltd</span>
                 </div>
 
                 <p className="brandDesc">
@@ -637,7 +637,7 @@ export default function Login() {
                 <div className="contact">
                   <div className="contactItem">
                     <IoCallSharp />
-                    <a href="tel:+919766722922" className="contactLink">
+                    <a href="tel:+919175312722" className="contactLink">
                       +91 91753 12722
                     </a>
                   </div>
